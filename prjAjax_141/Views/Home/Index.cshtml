@@ -8,83 +8,121 @@
         h1 {
             background-color: gray
         }
+
+        table, td, tr {
+            border-collapse: collapse;
+            border: 1px solid red;
+            align-content: center;
+            border-radius: 15px;
+            margin: 30px auto;
+            font-size: 25px;
+        }
     </style>
 }
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <input type="button" value="Click" id="btn">
+    <button class="btn btn-primary mb-2" type="button" id="buttonClick">Click</button>
+    @*<input type="button" value="Click" id="btn">*@
+    <table id="tb" class="td">
+    </table>
 </div>
 
 @section Scripts{
     <script>
-       // console.log("Hello");
-       // /*$('.display-4').text("Welcome MVC!!");*/
-       // $('#btn').click(function () { $('.display-4').text("Welcome MVC!!"); });
+        $("#buttonClick").on("click", function () {
+            var emp = {
+                "employees": [
+                    { "name": "Tom", "workYears": 3, "salary": 35000 },
+                    { "name": "Jack", "workYears": 5, "salary": 40000 },
+                    { "name": "Mary", "workYears": 7, "salary": 45000 }]
+            };
 
-       // ////找到要控制的對象 getElementById('id')、querySelector('css selectors')
-       // //const btn = document.querySelector('#buttonClick');
-       // //const myH = document.querySelector('.display-4');
-       // ////使用者的甚麼行為發生 => Event 事件
-       // ////按下按鈕 => click
-       // //btn.addEventListener('click', () => {
-       // //    //要做甚麼事
-       // //    //console.log("Hello");
-       // //    //myH.textContent = "Welcome MVC!!";
-       // //    //$('.display-4').text("Welcome MVC!!");
-       // //    var emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
-       // //    { "name": "Jack", "workYears": 5, "salary": 40000 },
-       // //    { "name": "Mary", "workYears": 7, "salary": 45000 }];
-       // //    //[{},{},{}]
-       // //    //array[index 0,1,2]
-       // //    //const emp = emps[1] //{ "name": "Jack", "workYears": 5, "salary": 40000 }
-       // //    ////object.prop  emp.name => Jack
-       // //    //myH.textContent = emp.salary
-       // //    //讀取JSON格式的資料
-       // //    for (let i = 0, max = emps.length; i < max; i++) {
-       // //        console.log(emps[i].name)
-       // //        console.log(emps[i].workYears)
-       // //        console.log(emps[i].salary)
-       // //    }
-       ////todo 讀取emp中的所有資料
-
-
-       // var emps = [
-       //     {"name": "Tom", "workYears": 3, "salary": 35000 },
-       //     {"name": "Jack", "workYears": 5, "salary": 40000 },
-       //     {"name": "Mary", "workYears": 7, "salary": 45000 }];
-
-       // for (let i = 0; i < emp.employees.length; i++)
-       // {
-       //     console.log(emp.employees[i].name)
-       //     console.log(emp.employees[i].workYears)
-       //     console.log(emp.employees[i].salary)
-       // }
-
-
-
-
-        //jQuery
-        //$('#buttonClick2').click(() => {
-        //    var emp = {
-        //        "employees": [
-        //            { "name": "Tom", "workYears": 3, "salary": 35000 },
-        //            { "name": "Jack", "workYears": 5, "salary": 40000 },
-        //            { "name": "Mary", "workYears": 7, "salary": 45000 }
-        //        ]
-        //    };
-        //    //$.each(emp, function (key, value) {
-        //    //    console.log(key);
-        //    //})
-
-
-        //    let docFrag = $(document.createDocumentFragment());
-        //    $.each(emp.employees,(idx,employee)=> )
-
-
+            let td = "";
+            let Emp = emp.employees;
+            let array = Object.keys(Emp[0])
+            td = `<tr><td>${array[0]}</td><td>${array[1]}</td><td>${array[2]}</td></tr>`
+            for (let i = 0, max = emp.employees.length; i < max; i++) {
+                td += `<tr><td>${Emp[i].name}</td><td>${Emp[i].workYears}</td><td>${Emp[i].salary}</td></tr>`
+            }
+            $(".td").append(td);
+        });
+            //console.log("Hello");
+            //$('.display-4').text("Welcome MVC!!");
+            //let b = document.getElementById("b");
+            //let a = document.getElementById("btn").addEventListener("click", function () {
+            //    b.innerHTML="Welcome MVC!!";
+            //});
+            //$(".bt1").click(function () {
+            //    $('.display-4').text("Welcome MVC!!");
+            //})
+            //console.log("Hello");
+            //$('.display-4').text("Welcome MVC!!");
+            ////找到要控制的對象 getElementById('id')、querySelector('css selectors')
+            ////const btn = document.querySelector('#buttonClick');
+            ////const myH = document.querySelector('.display-4');
+            ////使用者的甚麼行為發生 => Event 事件
+            ////按下按鈕 => click
+            ////btn.addEventListener('click', () => {
+            ////    要做甚麼事
+            ////    console.log("Hello");
+            ////    myH.textContent = "Welcome MVC!!";
+            ////    $('.display-4').text("Welcome MVC!!");
+            //});
+            //var emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+            //{ "name": "Jack", "workYears": 5, "salary": 40000 },
+            //{ "name": "Mary", "workYears": 7, "salary": 45000 }];
+            //[{},{},{}]
+            //array[index 0,1,2]
+            //const emp = emps[1] //{ "name": "Jack", "workYears": 5, "salary": 40000 }
+            ////object.prop  emp.name => Jack
+            //myH.textContent = emp.salary
+            //讀取JSON格式的資料
+            //for (let i = 0, max = emps.length; i < max; i++) {
+            //    console.log(emps[i].name)
+            //    console.log(emps[i].workYears)
+            //    console.log(emps[i].salary)
+            //}
+            //todo 讀取emp中的所有資料
+            //var emp = {
+            //    "employees": [
+            //        { "name": "Tom", "workYears": 3, "salary": 35000 },
+            //        { "name": "Jack", "workYears": 5, "salary": 40000 },
+            //        { "name": "Mary", "workYears": 7, "salary": 45000 }
+            //    ]
+            //};
+            //for (let i = 0, max = emp.employees.length; i < max; i++) {
+            //    console.log(emp.employees[i].name)
+            //    console.log(emp.employees[i].workYears)
+            //    console.log(emp.employees[i].salary)
+            //}
+            //    ES6
+            //    emp.employees.forEach(employee => {
+            //        //解構賦值(Destructuring assignment)
+            //        const { name, workYears, salary } = employee
+            //        console.log(name)
+            //        console.log(workYears)
+            //        console.log(salary)
+            //    })
+            //jQuery
+            //$('#buttonClick').click(() => {
+            //    var emp = {
+            //        "employees": [
+            //            { "name": "Tom", "workYears": 3, "salary": 35000 },
+            //            { "name": "Jack", "workYears": 5, "salary": 40000 },
+            //            { "name": "Mary", "workYears": 7, "salary": 45000 }
+            //        ]
+            //    };
+            //    $.each(emp.employees, (idx, employee) => {
+            //        //console.log(idx)
+            //        const { name, workYears, salary } = employee
+            //        console.log(name)
+            //        console.log(workYears)
+            //        console.log(salary)
+            //    })
 
 
     </script>
-
 }
