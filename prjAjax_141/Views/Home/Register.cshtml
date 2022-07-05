@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <form name="userInfo" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="form-group">
+                <label for="InputName">姓名</label>
+                <input type="text" class="form-control" id="InputName" name="name">
+                <small id="NameCheck" class="form-text text-muted row"></small>
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">電子郵件</label>
+                <input type="email" class="form-control" id="InputEmail" name="email">
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="age">
+            </div>
+            <div class="custom-file  mt-3">
+                <input type="file" class="custom-file-input" id="customFile" name="file">
+                <label class="custom-file-label" for="customFile">選擇檔案</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+@section Scripts{
+    <script>
+
+
+        const NameCheck = document.querySelector('#NameCheck')
+        const btnSubmit = document.querySelector('.btn');
+        const divInfo = document.querySelector('#div1');
+        const txtName = document.querySelector('#InputName');
+
+        txtName.addEventListener('blur', () => {
+
+            if (txtName.value.trim() === "") 
+                NameCheck.innerHTML = `<h4>請輸入姓名</h4>`;
+            else {
+
+                const xhr = new XMLHttpRequest();
+                xhr.addEventListener('load', () => {
+
+                    const data = xhr.responseText
+                    if (data == "True") {
+                        NameCheck.innerHTML = `<h4>帳號已註冊使用，請輸入其他帳號</h4>`;
+                    }
+                    else {
+                        NameCheck.innerHTML = `<h4>帳號尚未註冊</h4>`;
+                    }
+                })
+                const params =`name=${txtName.value}`
+                xhr.open("POST","@Url.Content("~/Api/CheckAccount")");
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(params);
+            } 
+        })
+
+
+    btnSubmit.addEventListener('click', (evt) => {
+        evt.preventDefault(); //停止預設行為 submit link
+
+        const formData = new FormData(document.userInfo);
+
+        @*//透過fetch()上傳圖檔
+        fetch('@Url.Content("~/Api/register")', {
+            body: formData,
+            method: post,
+        }).then(response => response.text())
+            .then(data => divInfo.innerHTML = data);*@
+
+
+        //透過XMLHttpRequest上傳圖檔
+        //step1
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('load', () => {
+
+            //step3
+            const data = xhr.responseText;
+            //顯示資料
+            divInfo.innerHTML=`<h3>${data}</h3>`
+        })
+
+        //step2
+        xhr.open('POST', '@Url.Content("~/Api/Register")');
+        xhr.send(formData);
+
+    })
+    </script>
+
+}
