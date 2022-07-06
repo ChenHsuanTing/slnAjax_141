@@ -50,6 +50,7 @@ namespace prjAjax_141
 
             app.UseRouting();
 
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

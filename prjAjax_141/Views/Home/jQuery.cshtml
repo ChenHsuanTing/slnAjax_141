@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+<div class="row">
+    <div class="col-4" id="divLeft"></div>
+    <div class="col-8">
+        <button id="buttonGet" class="btn btn-primary">get</button>
+        <button id="buttonPost" class="btn btn-secondary">post</button>
+        <button id="buttonJson" class="btn btn-success">getJson</button>
+        <button id="buttonLoad" class="btn btn-info">load</button>
+        <button id="buttonAjax" class="btn btn-warning">ajax</button>
+        <button id="buttonCors" class="btn btn-danger">cors</button>
+        <div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        $('#divLeft').load('@Url.Content("~/home/partial")')
+
+        //GET
+        $('#buttonGet').click(function () {
+            $.get('@Url.Content("~/api/index")',{ "name": "Jack", "age": 20 }, function (data) {
+                $('#divAlert').text(data)
+            })
+        })
+
+        //Post
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/api/index")',{ "name": "Ryan", "age": 27 }, function (data) {
+                $('#divAlert').text(data)
+            })
+        })
+
+        //JSON
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/api/districts")',{ "city": "臺北市" }, function (datas) {
+                $.each(datas, function (idx, item) {
+                    console.log(item);
+                })
+            })
+            $('#divAlert').text("JSON")
+        })
+
+        //Load
+        $('#buttonLoad').click(function () {
+            $('#divAlert').load('@Url.Content("~/home/partial")')
+        })
+
+        //Ajax
+        $('#buttonAjax').click(function () {
+            $.ajax({
+                url: '@Url.Content("~/api/districts")',
+                type: 'GET',//POST
+                data: { "city": "臺北市" },
+                dataType:'json'
+            }).done((datas) => {
+                console.log(datas);})
+
+            $('#divAlert').text("AJAX")
+        })
+
+
+        $('#buttonCors').click(function () {
+            const api = "https://localhost:44315/api/shippers"
+            $.getJSON(api, function (datas) {
+                console.log(datas)
+            })
+
+            $('#divAlert').text("CORs")
+        })
+
+    </script>
+}

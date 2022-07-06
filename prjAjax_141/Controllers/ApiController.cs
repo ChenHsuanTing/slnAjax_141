@@ -69,12 +69,25 @@ namespace prjAjax_141.Controllers
             return Content(info, "text/plain", System.Text.Encoding.UTF8);
         }
 
+  public IActionResult GetImageBytes(int id = 1)
+        {
+            Member member = _context.Members.Find(id);
+            byte[] img = member.FileData;
+            return File(img, "image/jpeg");
+        }
+
+
+
 
         public IActionResult CheckAccount(string name)
         {
             var exists = _context.Members.Any(m => m.Name == name);
             return Content(exists.ToString(), "text/plain");
         }
+
+
+
+
 
 
         //城市
@@ -100,12 +113,7 @@ namespace prjAjax_141.Controllers
         }
 
 
-        public IActionResult GetImageBytes(int id = 1)
-        {
-            Member member = _context.Members.Find(id);
-            byte[] img = member.FileData;
-            return File(img, "image/jpeg");
-        }
+      
 
 
 

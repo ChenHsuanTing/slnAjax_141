@@ -5,14 +5,88 @@
 
 <h1>Address</h1>
 
-<select id="select1">
-</select>
+<select id="selCity"></select>
+<select id="selDistrict"></select>
+<select id="selRoad"></select>
 
 
 @section Scripts{
     <script>
-        const selCity = document.querySelector('#select1');
+        const selCity = document.querySelector('#selCity');
+        const selDistrict = document.querySelector('#selDistrict');
+        const selRoad = document.querySelector('#selRoad');
+        let city = "";
+        let district = "";
+        //=================================================================
+        //City
+
+
         selCity.addEventListener('change', () => {
+            city = selCity.options[selCity.selectedIndex].value;
+            LoadDistrict();
+        })
+
+        selDistrict.addEventListener('change', () => {
+            district = selDistrict.options[selDistrict.selectedIndex].value;
+            LoadRoad();
+        })
+       
+
+            async function LoadCity() {
+                let response = await fetch('@Url.Content("~/Api/City")');
+                let data = await response.json();
+             data.forEach(city => {
+                 let opt = new Option(city,city);
+                 console.log(opt);
+                 selCity.options.add(opt);
+             })
+                city = selCity.options[selCity.selectedIndex].value;
+             LoadDistrict();
+        }
+        LoadCity();
+
+        //=================================================================
+        //District
+
+        async function LoadDistrict() {
+
+            let response1 = await fetch('@Url.Content("~/Api/Districts")'+`?city=${city}`);
+            let data1 = await response1.json();
+            selDistrict.innerHTML = "";
+             data1.forEach(district => {
+                 let opt1 = new Option(district, district);
+                 console.log(opt1);
+                 selDistrict.options.add(opt1);
+             })
+            district = selDistrict.options[selDistrict.selectedIndex].value;
+            LoadRoad();
+        }
+        //=================================================================
+        //Road
+            async function LoadRoad() {
+
+                let response1 = await fetch('@Url.Content("~/Api/Roads")' + `?district=${district}`);
+                let data1 = await response1.json();
+                selRoad.innerHTML = "";
+                data1.forEach(road => {
+                 let opt1 = new Option(road, road);
+                 console.log(opt1);
+                 selRoad.options.add(opt1);
+                })
+
+               
+        }
+
+
+
+
+
+
+
+
+
+
+        @*selCity.addEventListener('change', () => {
             //讀出使用者選擇的資料
             console.log(selCity.options[selCity.selectedIndex].value);
         })
@@ -28,7 +102,7 @@
             })
         })
         xhr.open("GET", "@Url.Content("~/Api/city")");
-        xhr.send();
+        xhr.send();*@
 
 
 

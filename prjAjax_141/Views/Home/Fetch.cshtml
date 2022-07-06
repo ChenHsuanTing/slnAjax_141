@@ -33,5 +33,20 @@
                 const myImg = document.querySelector('#img1');
                 myImg.src = URL.createObjectURL(datas);
             })
+
+
+
+        @* fetch('@Url.Content("~/api/members")')
+            .then(response => response.json())
+            .then(datas => console.log(datas));*@
+
+        @* async function LoadMembers() {
+            const response = await fetch('@Url.Content("~/api/members")');
+            const datas = await response.json();
+            datas.forEach(member => {
+                console.log(member.name)
+            });
+        }
+        LoadMembers();*@
     </script>
 }
